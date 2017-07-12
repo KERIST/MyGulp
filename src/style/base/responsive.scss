@@ -1,0 +1,7 @@
+html, body, section{
+  width: 100%;
+}
+
+@media (max-width: $mobile-small) {
+  font-size: 12px;
+}
