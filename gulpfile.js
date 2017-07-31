@@ -19,23 +19,23 @@ var gulp = require('gulp'),
 var path = {
     src: {
         html: 'src/*.html',
-        js: 'src/js/*.js',
+        js: 'src/script/*.js',
         style: 'src/style/styles.scss',
-        img: 'src/img/**/*.*',
+        img: 'src/images/**/*.*',
         fonts: 'src/fonts/**/*.*'
     },
     build: {
         html: 'build/',
         js: 'build/script/',
         css: 'build/style/',
-        img: 'build/img/',
+        img: 'build/images/',
         fonts: 'build/fonts/'
     },
     watch: {
         html: 'src/**/*.html',
         js: 'src/script/**/*.js',
         style: 'src/style/**/*.scss',
-        img: 'src/img/**/*.*',
+        img: 'src/images/**/*.*',
         fonts: 'src/fonts/**/*.*'
     }
 };
