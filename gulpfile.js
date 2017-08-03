@@ -10,10 +10,8 @@ var gulp = require('gulp'),
     pngquant = require('imagemin-pngquant'),
     rimraf = require('rimraf'),
     browserSync = require("browser-sync"),
-    wiredep = require('wiredep').stream,
-    gulpif = require('gulp-if'),
-    useref = require('gulp-useref'),
-    reload = browserSync.reload;
+    reload = browserSync.reload,
+    htmlmin = require('gulp-htmlmin');
 
 
 var path = {
@@ -74,14 +72,6 @@ gulp.task('reload', function () {
     reload();
 });
 
-gulp.task('bower', function () {
-    gulp.src('./src/index.html')
-        .pipe(wiredep({
-            directory : 'src/bower_components'
-        }))
-        .pipe(gulp.dest('./src'));
-});
-
 gulp.task('sass:watch', function () {
     gulp.watch(path.watch.style, ['sass']);
 });
@@ -90,21 +80,17 @@ gulp.task('html:watch', function () {
     gulp.watch(path.watch.html, ['reload'])
 });
 
-gulp.task('bower:watch', function () {
-    gulp.watch('./bower.json', ['bower']);
-});
-
 gulp.task('js:watch', function () {
    gulp.watch(path.watch.src, ['reload']);
 });
 
-gulp.task('watch', ['sass', 'browser-sync', 'html:watch', 'sass:watch','bower:watch', 'js:watch']);
+gulp.task('watch', ['sass', 'browser-sync', 'html:watch', 'sass:watch', 'js:watch']);
 // build
 
 gulp.task('html:build', function () {
     gulp.src('./src/index.html')
         .pipe(rigger())//want to import use in index.html => "//= ./footer.html"
-        .pipe(useref())
+        .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest(path.build.html));
 });
 
@@ -128,14 +114,14 @@ gulp.task('sass:build', function () {
 });
 
 gulp.task('image:build', function () {
-    gulp.src(path.src.img) //Выберем наши картинки
-        .pipe(imagemin({ //Сожмем их
+    gulp.src(path.src.img)
+        .pipe(imagemin({
             progressive: true,
             svgoPlugins: [{removeViewBox: false}],
             use: [pngquant()],
             interlaced: true
         }))
-        .pipe(gulp.dest(path.build.img)) //И бросим в build
+        .pipe(gulp.dest(path.build.img))
         .pipe(reload({stream: true}));
 });
 
