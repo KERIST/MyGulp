@@ -81,14 +81,14 @@ gulp.task('html:watch', function () {
 });
 
 gulp.task('js:watch', function () {
-   gulp.watch(path.watch.src, ['reload']);
+    gulp.watch(path.watch.src, ['reload']);
 });
 
 gulp.task('watch', ['sass', 'browser-sync', 'html:watch', 'sass:watch', 'js:watch']);
 // build
 
 gulp.task('html:build', function () {
-    gulp.src('./src/index.html')
+    gulp.src(path.src.html)
         .pipe(rigger())//want to import use in index.html => "//= ./footer.html"
         .pipe(htmlmin({collapseWhitespace: true}))
         .pipe(gulp.dest(path.build.html));
@@ -97,9 +97,7 @@ gulp.task('html:build', function () {
 gulp.task('js:build', function () {
     gulp.src(path.src.js)
         .pipe(rigger())
-        .pipe(sourcemaps.init())
         .pipe(uglify())
-        .pipe(sourcemaps.write())
         .pipe(gulp.dest(path.build.js))
         .pipe(reload({stream: true}));
 });
